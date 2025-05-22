@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react"; // ikonlar için lucide-react kullanıyoruz
-
+import logo from "../assets/logo-light.webp";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,11 +11,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img
-            src="src/assets/logo-light.webp"
-            alt="Logo"
-            className="h-8 md:h-10 w-auto"
-          />
+          <img src={logo} alt="Logo" className="h-8 md:h-10 w-auto" />
         </div>
 
         {/* Hamburger icon (only on mobile) */}
