@@ -2,6 +2,8 @@
 
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import modelVideo from "../assets/model-academy-hero.mp4";
+import poster from "../assets/bg-fashion.webp"; // bu `public/` klasöründeyse böyle yazılır
 
 const AboutSection = lazy(() => import("../components/AboutSection"));
 const GallerySection = lazy(() => import("../components/GallerySection"));
@@ -20,9 +22,9 @@ export default function Home() {
           muted
           playsInline
           className="absolute w-full h-full object-cover"
-          poster="/poster.jpg"
+          poster={poster}
         >
-          <source src="src/assets/model-academy-hero.mp4" type="video/mp4" />
+          <source src={modelVideo} type="video/mp4" />
         </video>
 
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
@@ -55,7 +57,7 @@ export default function Home() {
       >
         <AboutSection />
         <ProductList />
-          <section className="py-20 px-4 sm:px-6 md:px-10 bg-neutral-100 text-center">
+        <section className="py-20 px-4 sm:px-6 md:px-10 bg-neutral-100 text-center">
           <h2 className="text-3xl sm:text-4xl font-fancy mb-4">Model Camp</h2>
           <p className="text-gray-600 max-w-xl mx-auto mb-6 text-sm sm:text-base">
             Hayalindeki modellik kariyerine ilk adımı atmak için hemen başvuru
@@ -72,6 +74,6 @@ export default function Home() {
         <GallerySection />
         <LazyFAQ />
       </Suspense>
- </>
+    </>
   );
 }
