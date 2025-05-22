@@ -2,24 +2,30 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import westernFashion from "../assets/Western_Fashion _Festival.webp";
+import vintageFashion from "../assets/Vintage_Fashion_Show.webp";
+import summerFashion from "../assets/Summer_Fashion_Show.webp";
+import runwayShow from "../assets/Runway_Show.webp";
+import winterShow from "/academy-training.jpg";
+
 const products = [
   {
     id: 1,
     title: "Western Fashion Festival",
-    image: "src/assets/Western_Fashion _Festival.webp",
+    image: westernFashion,
   },
   {
     id: 2,
     title: "Vintage Fashion Show",
-    image: "src/assets/Vintage_Fashion_Show.webp",
+    image: vintageFashion,
   },
   {
     id: 3,
     title: "Summer Fashion Show",
-    image: "src/assets/Summer_Fashion_Show.webp",
+    image: summerFashion,
   },
-  { id: 4, title: "Runway Show", image: "src/assets/Runway_Show.webp" },
-  { id: 5, title: "Winter Show", image: "/academy-training.jpg" },
+  { id: 4, title: "Runway Show", image: runwayShow },
+  { id: 5, title: "Winter Show", image: winterShow },
 ];
 
 export default function ProductList() {

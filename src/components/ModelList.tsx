@@ -1,23 +1,22 @@
 // src/components/ModelList.tsx
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import buseAslan from "../assets/models/Buse_Aslan.webp";
+import cagatayKirit from "../assets/models/Çağatay_Kirit.webp";
+import dildoraYusupova from "../assets/models/Dildora_Yusupova.webp";
+import keremBukey from "../assets/models/Kerem_Bükey.webp";
+import medihaMutlu from "../assets/models/Mediha_Mutlu.webp";
+import leylaBalta from "../assets/models/Leyla_Balta.webp";
 
 const models = [
-  { id: 1, name: "Buse Aslan", image: "src/assets/models/Buse_Aslan.webp" },
-  {
-    id: 2,
-    name: "Cağatay Kirit",
-    image: "src/assets/models/Çağatay_Kirit.webp",
-  },
-  {
-    id: 3,
-    name: "Dildora Yusupova",
-    image: "src/assets/models/Dildora_Yusupova.webp",
-  },
-  { id: 4, name: "Kerem Bükey", image: "src/assets/models/Kerem_Bükey.webp" },
-  { id: 5, name: "Mediha Mutlu", image: "src/assets/models/Mediha_Mutlu.webp" },
-  { id: 6, name: "Leyla Balta", image: "src/assets/models/Leyla_Balta.webp" },
+  { id: 1, name: "Buse Aslan", image: buseAslan },
+  { id: 2, name: "Cağatay Kirit", image: cagatayKirit },
+  { id: 3, name: "Dildora Yusupova", image: dildoraYusupova },
+  { id: 4, name: "Kerem Bükey", image: keremBukey },
+  { id: 5, name: "Mediha Mutlu", image: medihaMutlu },
+  { id: 6, name: "Leyla Balta", image: leylaBalta },
 ];
+
 
 export default function ModelList() {
   const visibleModels = models.slice(0, 5);

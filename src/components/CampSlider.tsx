@@ -1,7 +1,8 @@
 // src/components/CampSlider.tsx
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-
+import fashionBg1 from "../assets/bg-fashion.webp";
+import fashionLogo from "../assets/logo.webp";
 function AutoplayPlugin(slider: any) {
   let timeout: ReturnType<typeof setTimeout>;
   let mouseOver = false;
@@ -52,11 +53,7 @@ export default function CampSlider() {
       ref={sliderRef}
       className="keen-slider max-w-5xl mx-auto rounded-xl overflow-hidden shadow-xl"
     >
-      {[
-        "src/assets/bg-fashion.webp",
-        "src/assets/logo.webp",
-        "src/assets/bg-fashion.webp",
-      ].map((src, i) => (
+    {[fashionBg1, fashionLogo, fashionBg1].map((src, i) => (
         <div className="keen-slider__slide" key={i}>
           <img
             src={src}
