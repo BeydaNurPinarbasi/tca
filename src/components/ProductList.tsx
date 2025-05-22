@@ -6,7 +6,7 @@ import westernFashion from "../assets/Western_Fashion _Festival.webp";
 import vintageFashion from "../assets/Vintage_Fashion_Show.webp";
 import summerFashion from "../assets/Summer_Fashion_Show.webp";
 import runwayShow from "../assets/Runway_Show.webp";
-import winterShow from "/academy-training.jpg";
+
 
 const products = [
   {
@@ -25,7 +25,6 @@ const products = [
     image: summerFashion,
   },
   { id: 4, title: "Runway Show", image: runwayShow },
-  { id: 5, title: "Winter Show", image: winterShow },
 ];
 
 export default function ProductList() {
