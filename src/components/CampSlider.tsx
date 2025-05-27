@@ -3,7 +3,9 @@ import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import fashionBg1 from "../assets/bg-fashion.webp";
 import fashionLogo from "../assets/logo.webp";
-function AutoplayPlugin(slider: any) {
+import type { KeenSliderInstance } from "keen-slider";
+
+function AutoplayPlugin(slider: KeenSliderInstance) {
   let timeout: ReturnType<typeof setTimeout>;
   let mouseOver = false;
 
@@ -36,6 +38,7 @@ function AutoplayPlugin(slider: any) {
   slider.on("updated", nextTimeout);
 }
 
+
 export default function CampSlider() {
   const [sliderRef] = useKeenSlider(
     {
@@ -53,12 +56,12 @@ export default function CampSlider() {
       ref={sliderRef}
       className="keen-slider max-w-5xl mx-auto rounded-xl overflow-hidden shadow-xl"
     >
-    {[fashionBg1, fashionLogo, fashionBg1].map((src, i) => (
+      {[fashionBg1, fashionLogo, fashionBg1].map((src, i) => (
         <div className="keen-slider__slide" key={i}>
           <img
             src={src}
             alt={`Camp ${i + 1}`}
-            className="w-full h-[400px] object-cover transition-all duration-700 ease-in-out"
+            className="w-full aspect-[16/9] object-cover transition-all duration-700 ease-in-out"
           />
         </div>
       ))}

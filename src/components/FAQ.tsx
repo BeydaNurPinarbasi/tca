@@ -37,7 +37,7 @@ export default function FAQ() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="max-w-3xl mx-auto"
       >
-        <h2 className="text-3xl sm:text-4xl font-fancy text-center mb-12">
+        <h2 className="text-h2 font-serif text-center mb-12">
           Sıkça Sorulan Sorular
         </h2>
 
@@ -54,7 +54,7 @@ export default function FAQ() {
                 onClick={() => toggle(i)}
                 className="w-full text-left flex justify-between items-center px-5 py-4 bg-white hover:bg-gray-50 transition"
               >
-                <span className="text-base sm:text-lg font-medium text-gray-900">
+                <span className="text-base font-medium text-gray-900">
                   {faq.question}
                 </span>
                 <span
@@ -73,7 +73,7 @@ export default function FAQ() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3 }}
-                    className="px-5 pb-5 text-sm sm:text-base text-gray-700"
+                    className="px-5 pb-5 text-base text-gray-700"
                   >
                     {faq.answer}
                   </motion.div>

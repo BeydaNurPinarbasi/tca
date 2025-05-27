@@ -4,6 +4,7 @@ export default function AboutSection() {
   return (
     <section className="py-16 sm:py-20 bg-white px-4 sm:px-6 md:px-10 lg:px-20 font-sans">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+        {/* Görsel */}
         <img
           src={logo}
           alt="Two Cowboys Eğitim"
@@ -11,11 +12,13 @@ export default function AboutSection() {
           loading="lazy"
         />
 
+        {/* Metin */}
         <div className="md:w-1/2 text-center md:text-left">
-          <h2 className="text-3xl sm:text-4xl font-fancy mb-6 leading-snug">
+          <h2 className="text-h2 font-serif mb-6 leading-snug">
             Two Cowboys
           </h2>
-          <p className="text-base sm:text-lg leading-relaxed text-gray-700 font-sans">
+
+          <p className="text-base leading-relaxed text-gray-700">
             <strong>Two Cowboys</strong>; yeni nesil moda hareketinin adıdır ve
             sektörde yer almak isteyenlerin buluşma noktasıdır. Bünyesinde
             barındırdığı modellere eğitimler verir ve markalar ile buluşturur.

@@ -11,7 +11,7 @@ export default function ContactCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="text-2xl sm:text-3xl font-serif font-medium leading-snug mb-6"
+          className="text-h2 font-serif font-medium leading-snug mb-6"
         >
           Two Cowboys olarak, projelerinizde size eşlik etmek
           <br className="hidden sm:block" />
@@ -24,10 +24,9 @@ export default function ContactCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="text-base md:text-lg text-gray-700 leading-relaxed mb-10"
+          className="text-base text-gray-700 leading-relaxed mb-10"
         >
-          Daha fazla bilgi almak ve iş birliği yapmak için bizimle iletişime
-          geçin.
+          Daha fazla bilgi almak ve iş birliği yapmak için bizimle iletişime geçin.
         </motion.p>
 
         {/* Buton */}
@@ -37,13 +36,15 @@ export default function ContactCTA() {
           transition={{ duration: 0.4, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <a
-            href="mailto:bilgi@twocowboysoriginals.com?subject=İşbirliği Talebi"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="outline">İletişime Geçin</Button>
-          </a>
+          <Button variant="outline" asChild>
+            <a
+              href="mailto:bilgi@twocowboysoriginals.com?subject=İşbirliği Talebi"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              İletişime Geçin
+            </a>
+          </Button>
         </motion.div>
       </div>
     </section>

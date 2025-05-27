@@ -13,11 +13,13 @@ export default function Production() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">
+          {/* H1 */}
+          <h1 className="text-h1 font-serif font-bold leading-tight mb-6">
             Two Cowboys Production
           </h1>
 
-          <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
+          {/* Açıklama */}
+          <p className="text-base text-gray-600 leading-relaxed max-w-3xl mx-auto">
             Two Cowboys olarak, tematik defileler ve güçlü podyum sahneleriyle
             moda dünyasında yerimizi alıyoruz. Markalara, defile sürecinin her
             aşamasında destek veriyor ve baştan sona tüm organizasyonu
@@ -26,6 +28,7 @@ export default function Production() {
             hedefliyoruz.
           </p>
 
+          {/* Ayırıcı çizgi */}
           <div className="mt-6 flex justify-center">
             <div className="h-1 w-24 bg-gradient-to-r from-black/10 via-black to-black/10 rounded-full" />
           </div>

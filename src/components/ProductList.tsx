@@ -20,77 +20,34 @@ type ProductListProps = {
 };
 
 const products: Product[] = [
-  {
-    id: 1,
-    title: "Western Fashion Festival",
-    image: westernFashion,
-    category: "Festival",
-  },
-  {
-    id: 2,
-    title: "Vintage Fashion Show",
-    image: vintageFashion,
-    category: "Vintage",
-  },
-  {
-    id: 3,
-    title: "Summer Fashion Show",
-    image: summerFashion,
-    category: "Summer",
-  },
-  {
-    id: 4,
-    title: "Runway Show",
-    image: runwayShow,
-    category: "Runway",
-  },
-  {
-    id: 5,
-    title: "Extra Fashion 1",
-    image: westernFashion,
-    category: "Runway",
-  },
-  {
-    id: 6,
-    title: "Extra Fashion 2",
-    image: summerFashion,
-    category: "Festival",
-  },
-  {
-    id: 7,
-    title: "Extra Fashion 3",
-    image: summerFashion,
-    category: "Festival",
-  },
+  { id: 1, title: "Western Fashion Festival", image: westernFashion, category: "Festival" },
+  { id: 2, title: "Vintage Fashion Show", image: vintageFashion, category: "Vintage" },
+  { id: 3, title: "Summer Fashion Show", image: summerFashion, category: "Summer" },
+  { id: 4, title: "Runway Show", image: runwayShow, category: "Runway" },
+  { id: 5, title: "Extra Fashion 1", image: westernFashion, category: "Runway" },
+  { id: 6, title: "Extra Fashion 2", image: summerFashion, category: "Festival" },
+  { id: 7, title: "Extra Fashion 3", image: summerFashion, category: "Festival" },
 ];
 
-export default function ProductList({
-  variant = "compact",
-  showAllButton = true,
-}: ProductListProps) {
+export default function ProductList({ variant = "compact", showAllButton = true }: ProductListProps) {
   const [selectedCategory, setSelectedCategory] = useState("Tümü");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
   const categories = ["Tümü", "Festival", "Vintage", "Summer", "Runway"];
 
-  const filteredProducts =
-    selectedCategory === "Tümü"
-      ? products
-      : products.filter((p) => p.category === selectedCategory);
+  const filtered = selectedCategory === "Tümü"
+    ? products
+    : products.filter((p) => p.category === selectedCategory);
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginated = filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const compactView = variant === "compact";
+  const visibleProducts = compactView ? filtered.slice(0, 4) : paginated;
 
-  const visibleProducts =
-    variant === "compact"
-      ? filteredProducts.slice(0, 4)
-      : filteredProducts.slice(startIndex, startIndex + itemsPerPage);
-
-  const gridCols =
-    variant === "grid"
-      ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-2"
-      : "grid-cols-2 sm:grid-cols-4";
+  const gridClass = compactView
+    ? "grid-cols-2 sm:grid-cols-4"
+    : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-2";
 
   return (
     <section className="px-4 sm:px-6 md:px-10 py-16 bg-white">
@@ -99,20 +56,18 @@ export default function ProductList({
       </h2>
 
       {/* Kategori Filtreleri */}
-      {variant === "grid" && (
+      {!compactView && (
         <div className="flex flex-wrap justify-center gap-4 mb-8">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => {
                 setSelectedCategory(cat);
-                setCurrentPage(1); // filtre değişince sayfa sıfırlansın
+                setCurrentPage(1);
               }}
-              className={`px-4 py-2 rounded-full border ${
-                selectedCategory === cat
-                  ? "bg-black text-white"
-                  : "border-black text-black"
-              } transition`}
+              className={`px-4 py-2 rounded-full border transition font-medium ${
+                selectedCategory === cat ? "bg-black text-white" : "border-black text-black"
+              }`}
             >
               {cat}
             </button>
@@ -120,32 +75,25 @@ export default function ProductList({
         </div>
       )}
 
-      {/* Kayan Grid */}
+      {/* Ürün Grid */}
       <div className="overflow-x-auto">
-        <div className={`grid gap-6 ${gridCols} min-w-[768px]`}>
+        <div className={`grid gap-6 min-w-[768px] ${gridClass}`}>
           {visibleProducts.map((product, i) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              index={i}
-              variant={variant}
-            />
+            <ProductCard key={product.id} product={product} index={i} variant={variant} />
           ))}
         </div>
       </div>
 
-      {/* Sayfa Numaraları */}
-      {variant === "grid" && totalPages > 1 && (
+      {/* Sayfalandırma */}
+      {!compactView && totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-10">
-          {Array.from({ length: totalPages }).map((_, i) => (
+          {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`w-10 h-10 rounded-full border text-sm ${
-                currentPage === i + 1
-                  ? "bg-black text-white"
-                  : "border-black text-black"
-              } transition`}
+              className={`w-10 h-10 rounded-full border text-sm transition ${
+                currentPage === i + 1 ? "bg-black text-white" : "border-black text-black"
+              }`}
             >
               {i + 1}
             </button>
@@ -153,12 +101,12 @@ export default function ProductList({
         </div>
       )}
 
-      {/* Compact modda "Tümünü Gör" */}
-      {variant === "compact" && showAllButton && (
+      {/* Compact modda tümünü gör */}
+      {compactView && showAllButton && (
         <div className="text-center mt-12">
           <Link
             to="/production"
-            className="inline-block bg-gradient-to-r from-black to-neutral-800 text-white px-8 py-3 rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all duration-300"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-black to-neutral-800 text-white rounded-xl shadow hover:scale-105 hover:shadow-xl transition-all duration-300"
           >
             Tüm Prodüksiyonları Gör
           </Link>

@@ -10,11 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/typography": "^0.5.16",
     "framer-motion": "^12.12.1",
     "keen-slider": "^6.8.6",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hook-form": "^7.56.4",
     "react-hot-toast": "^2.5.2",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^7.6.0"

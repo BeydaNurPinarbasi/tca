@@ -14,15 +14,7 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({ product, index, variant }: ProductCardProps) {
-  // Kart boyutunu variant'a göre ayarlıyoruz
-  const imageWrapperClass =
-    variant === "compact"
-      ? "aspect-square"
-      : "aspect-[4/5] max-h-[500px]";
-
-  const titleSize = variant === "compact" ? "text-sm" : "text-base";
-  const linkSize = variant === "compact" ? "text-xs" : "text-sm";
-  const paddingSize = variant === "compact" ? "p-3" : "p-4";
+  const isCompact = variant === "compact";
 
   return (
     <motion.div
@@ -30,10 +22,10 @@ export default function ProductCard({ product, index, variant }: ProductCardProp
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-lg transition-all duration-300"
+      className="bg-white rounded-2xl shadow-md hover:shadow-lg overflow-hidden transition-all duration-300"
     >
       {/* Görsel */}
-      <div className={`w-full overflow-hidden ${imageWrapperClass}`}>
+      <div className={`w-full overflow-hidden ${isCompact ? "aspect-square" : "aspect-[4/5] max-h-[500px]"}`}>
         <img
           src={product.image}
           alt={product.title}
@@ -42,13 +34,14 @@ export default function ProductCard({ product, index, variant }: ProductCardProp
       </div>
 
       {/* Bilgi Alanı */}
-      <div className={`${paddingSize} bg-white`}>
-        <h3 className={`font-semibold ${titleSize} text-black mb-2`}>
+      <div className={`${isCompact ? "p-3" : "p-4"} bg-white`}>
+        <h3 className={`text-black font-semibold mb-2 ${isCompact ? "text-sm" : "text-base"}`}>
           {product.title}
         </h3>
         <Link
           to={`/production/${product.id}`}
-          className={`${linkSize} text-blue-600 underline hover:text-blue-800 transition`}
+          className={`${isCompact ? "text-xs" : "text-sm"} text-blue-600 underline hover:text-blue-800 transition`}
+          aria-label={`Detayları İncele: ${product.title}`}
         >
           Detayları İncele
         </Link>
