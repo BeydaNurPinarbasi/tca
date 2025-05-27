@@ -1,3 +1,4 @@
+
 export default function GallerySection() {
   return (
     <section className="py-20 bg-neutral-100 px-6 md:px-20">

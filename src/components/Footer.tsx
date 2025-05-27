@@ -3,7 +3,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-tr from-black via-neutral-900 to-neutral-800 text-white mt-20 font-sans overflow-hidden animate-fade-in">
+    <footer className="bg-gradient-to-tr from-black via-neutral-900 to-neutral-800 text-white mt-20 font-sans overflow-hidden">
       {/* Üst Satır: Logo & Sosyal Medya */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-12 pb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Logo */}

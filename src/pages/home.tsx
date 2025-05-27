@@ -56,7 +56,8 @@ export default function Home() {
         }
       >
         <AboutSection />
-        <ProductList />
+        <ProductList variant="compact" />
+
         <section className="py-20 px-4 sm:px-6 md:px-10 bg-neutral-100 text-center">
           <h2 className="text-3xl sm:text-4xl font-fancy mb-4">Model Camp</h2>
           <p className="text-gray-600 max-w-xl mx-auto mb-6 text-sm sm:text-base">
