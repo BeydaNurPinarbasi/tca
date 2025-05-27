@@ -3,6 +3,7 @@ import Layout from "./layouts/Layout";
 import Home from "./pages/home";
 import Basvuru from "./pages/Basvuru";
 import Production from "./pages/Production";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -30,6 +31,14 @@ export default function App() {
           element={
             <Layout>
               <Production />
+            </Layout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Layout>
+              <NotFound />
             </Layout>
           }
         />

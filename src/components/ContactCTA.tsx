@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Button from "./ui/Button";
 
 export default function ContactCTA() {
   return (
@@ -25,20 +26,25 @@ export default function ContactCTA() {
           viewport={{ once: true }}
           className="text-base md:text-lg text-gray-700 leading-relaxed mb-10"
         >
-          Daha fazla bilgi almak ve iş birliği yapmak için bizimle iletişime geçin.
+          Daha fazla bilgi almak ve iş birliği yapmak için bizimle iletişime
+          geçin.
         </motion.p>
 
         {/* Buton */}
-        <motion.a
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
           viewport={{ once: true }}
-          href="mailto:bilgi@twocowboysoriginals.com?subject=İşbirliği Talebi"
-          className="inline-block bg-black text-white font-medium px-8 py-3 rounded-full hover:bg-gray-900 transition-all duration-300"
         >
-          İletişime Geçin
-        </motion.a>
+          <a
+            href="mailto:bilgi@twocowboysoriginals.com?subject=İşbirliği Talebi"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline">İletişime Geçin</Button>
+          </a>
+        </motion.div>
       </div>
     </section>
   );
