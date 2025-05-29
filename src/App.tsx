@@ -12,8 +12,12 @@ import NotFound from "./pages/NotFound";
 import ModelsPage from "./pages/Models";
 import ModelAcademy from "./pages/ModelAcademy";
 import ModelCast from "./pages/ModelCast";
+import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
+
 
 import { AnimatePresence } from "framer-motion";
+import ModelCastLogin from "./pages/ModelCastLogin";
 
 
 // Özel Router wrapper componenti
@@ -71,7 +75,34 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
+           <Route
+          path="/cast-login"
+          element={
+            <Layout>
+              <ModelCastLogin />
+            </Layout>
+          }
+        />
 
+        {/* BLOG */}
+        <Route
+          path="/blog"
+          element={
+            <Layout>
+              <Blog />
+            </Layout>
+          }
+        />
+        <Route
+          path="/blog/:id"
+          element={
+            <Layout>
+              <BlogDetail />
+            </Layout>
+          }
+        />
+
+        {/* 404 */}
         <Route
           path="*"
           element={
