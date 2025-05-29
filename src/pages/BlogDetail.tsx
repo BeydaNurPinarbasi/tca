@@ -130,7 +130,7 @@ export default function BlogDetail() {
           <div>
             <h2 className="text-lg font-semibold font-serif mb-3">Etiketler</h2>
             <div className="flex flex-wrap gap-2">
-              {["modellik", "two cowboys", "basında", "girişim", "platform", "fotoğraf"].map((tag) => (
+              {["modellik", "two cowboys", "basında",  "platform", "fotoğraf"].map((tag) => (
                 <span
                   key={tag}
                   className="px-3 py-1 text-xs bg-neutral-100 text-neutral-600 rounded-full hover:bg-neutral-200 cursor-pointer transition"
