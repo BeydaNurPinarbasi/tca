@@ -38,7 +38,9 @@ export default function BlogDetail() {
       <div className="min-h-screen flex items-center justify-center text-center px-4">
         <div>
           <h1 className="text-2xl font-semibold">Haber Bulunamadı</h1>
-          <p className="text-neutral-500 mt-2">Geçerli bir haber linki bulunamadı.</p>
+          <p className="text-neutral-500 mt-2">
+            Geçerli bir haber linki bulunamadı.
+          </p>
           <Link
             to="/blog"
             className="mt-4 inline-block text-blue-600 underline hover:text-blue-800 transition"
@@ -53,7 +55,7 @@ export default function BlogDetail() {
   return (
     <section className="min-h-screen bg-white px-4 sm:px-6 py-16">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-12">
-        {/* Sol: Ana İçerik */}
+        {/* SOL SÜTUN */}
         <div className="lg:col-span-2 space-y-6">
           <div className="relative">
             <img
@@ -84,27 +86,87 @@ export default function BlogDetail() {
           </Link>
         </div>
 
-        {/* Sağ: Son Yazılar */}
-        <aside className="space-y-4">
-          <h2 className="text-lg font-semibold font-serif mb-4">Son Yazılar</h2>
-          <div className="space-y-4">
-            {otherPosts.map(([key, post]) => (
-              <Link
-                key={key}
-                to={`/blog/${key}`}
-                className="flex items-center gap-4 hover:bg-neutral-50 p-3 rounded-lg transition"
+        {/* SAĞ SÜTUN */}
+        <aside className="space-y-10">
+          {/* Son Yazılar */}
+          <div>
+            <h2 className="text-lg font-semibold font-serif mb-4">Son Yazılar</h2>
+            <div className="space-y-4">
+              {otherPosts.map(([key, post]) => (
+                <Link
+                  key={key}
+                  to={`/blog/${key}`}
+                  className="flex items-center gap-4 hover:bg-neutral-50 p-3 rounded-lg transition"
+                >
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-20 h-20 object-cover rounded-md shadow-sm"
+                  />
+                  <div>
+                    <h3 className="text-sm font-medium text-black">{post.title}</h3>
+                    <p className="text-xs text-neutral-500 mt-1">{post.date}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Kategoriler */}
+          <div>
+            <h2 className="text-lg font-semibold font-serif mb-3">Kategoriler</h2>
+            <ul className="space-y-2">
+              {["Moda", "Eğitim", "Dijitalleşme", "Gençlik"].map((cat) => (
+                <li key={cat}>
+                  <span className="block px-4 py-2 text-sm border border-neutral-300 rounded-lg hover:bg-neutral-100 cursor-pointer transition">
+                    {cat}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Etiket Bulutu */}
+          <div>
+            <h2 className="text-lg font-semibold font-serif mb-3">Etiketler</h2>
+            <div className="flex flex-wrap gap-2">
+              {["modellik", "two cowboys", "basında", "startup", "girişim", "platform", "fotoğraf"].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-xs bg-neutral-100 text-neutral-600 rounded-full hover:bg-neutral-200 cursor-pointer transition"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Sosyal Medyada Paylaş */}
+          <div>
+            <h2 className="text-lg font-semibold font-serif mb-3">Paylaş</h2>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center bg-black text-white rounded-full hover:opacity-80 transition"
+                aria-label="X (Twitter)"
               >
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-20 h-20 object-cover rounded-md shadow-sm"
-                />
-                <div>
-                  <h3 className="text-sm font-medium text-black">{post.title}</h3>
-                  <p className="text-xs text-neutral-500 mt-1">{post.date}</p>
-                </div>
-              </Link>
-            ))}
+                X
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center bg-pink-600 text-white rounded-full hover:opacity-80 transition"
+                aria-label="Instagram"
+              >
+                IG
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 flex items-center justify-center bg-green-500 text-white rounded-full hover:opacity-80 transition"
+                aria-label="WhatsApp"
+              >
+                WA
+              </a>
+            </div>
           </div>
         </aside>
       </div>
