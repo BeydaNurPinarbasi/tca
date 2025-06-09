@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ErrorAlert from "./ErrorAlert";
+import { fakeUsers } from "../lib/fakeUsers";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 interface LoginData {
   email: string;
@@ -13,17 +16,27 @@ export default function LoginForm() {
   const { register, handleSubmit } = useForm<LoginData>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   const onSubmit = (data: LoginData) => {
     setLoading(true);
     setError("");
 
     setTimeout(() => {
-      if (data.email === "test@mail.com" && data.password === "123456") {
+      const userExists = fakeUsers.find(
+        (user) => user.email === data.email && user.password === data.password
+      );
+
+      if (userExists) {
         console.log("Giriş başarılı!");
+        login(data.email);
+        navigate("/profil");
       } else {
         setError("E-posta veya şifre hatalı.");
       }
+
       setLoading(false);
     }, 1000);
   };
@@ -35,7 +48,9 @@ export default function LoginForm() {
     >
       {/* Başlık */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-neutral-900">Model Cast Girişi</h1>
+        <h1 className="text-3xl font-bold text-neutral-900">
+          Model Cast Girişi
+        </h1>
         <p className="text-sm text-neutral-500 mt-1">
           Hesabınıza giriş yapın ve devam edin.
         </p>
@@ -60,7 +75,10 @@ export default function LoginForm() {
 
       {/* Şifre */}
       <div className="space-y-1">
-        <label htmlFor="password" className="text-sm font-medium text-neutral-700">
+        <label
+          htmlFor="password"
+          className="text-sm font-medium text-neutral-700"
+        >
           Şifre
         </label>
         <input
@@ -82,7 +100,10 @@ export default function LoginForm() {
           />
           <span className="text-neutral-700">Oturumu açık tut</span>
         </label>
-        <Link to="/sifremi-unuttum" className="text-black hover:underline transition">
+        <Link
+          to="/sifremi-unuttum"
+          className="text-black hover:underline transition"
+        >
           Şifremi unuttum
         </Link>
       </div>
@@ -96,11 +117,7 @@ export default function LoginForm() {
         }`}
       >
         {loading && (
-          <svg
-            className="w-4 h-4 animate-spin"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
+          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
             <circle
               className="opacity-25"
               cx="12"

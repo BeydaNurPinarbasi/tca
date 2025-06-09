@@ -14,11 +14,10 @@ import ModelAcademy from "./pages/ModelAcademy";
 import ModelCast from "./pages/ModelCast";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
-
-
+import ModelLoginRoutes from "./pages/ModelLogin/ModelLoginRoutes";
 import { AnimatePresence } from "framer-motion";
 import ModelCastLogin from "./pages/ModelCastLogin";
-
+import { AuthProvider } from "./providers/AuthProvider";
 
 // Özel Router wrapper componenti
 function AnimatedRoutes() {
@@ -59,7 +58,7 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
-            <Route
+        <Route
           path="/cast"
           element={
             <Layout>
@@ -67,7 +66,7 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
-         <Route
+        <Route
           path="/academy"
           element={
             <Layout>
@@ -75,11 +74,19 @@ function AnimatedRoutes() {
             </Layout>
           }
         />
-           <Route
+        <Route
           path="/cast-login"
           element={
             <Layout>
               <ModelCastLogin />
+            </Layout>
+          }
+        />
+        <Route
+          path="/profil/*"
+          element={
+            <Layout>
+              <ModelLoginRoutes />
             </Layout>
           }
         />
@@ -119,7 +126,9 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <Router>
-      <AnimatedRoutes />
+      <AuthProvider>
+        <AnimatedRoutes />
+      </AuthProvider>
     </Router>
   );
 }
