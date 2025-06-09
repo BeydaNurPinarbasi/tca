@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import Profile from "./profile";
-// import Settings from "./Settings"; // İleride eklenecek sayfalar için örnek
+import EditProfile from "./EditProfile"; // yeni sayfa
 
 export default function ModelLoginRoutes() {
   return (
@@ -9,8 +9,8 @@ export default function ModelLoginRoutes() {
         {/* Ana rota: /profil */}
         <Route index element={<Profile />} />
 
-        {/* Diğer alt sayfalar */}
-        {/* <Route path="settings" element={<Settings />} /> */}
+        {/* Profili düzenle sayfası: /profil/edit */}
+        <Route path="edit" element={<EditProfile />} />
       </Route>
     </Routes>
   );

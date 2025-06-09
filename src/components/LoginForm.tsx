@@ -31,7 +31,7 @@ export default function LoginForm() {
 
       if (userExists) {
         console.log("Giriş başarılı!");
-        login(data.email);
+        login(userExists);
         navigate("/profil");
       } else {
         setError("E-posta veya şifre hatalı.");

@@ -2,35 +2,41 @@ import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import type { UserData } from "../types/UserData";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("userEmail");
-    if (storedEmail) {
+    const stored = localStorage.getItem("userData");
+    if (stored) {
+      const parsed: UserData = JSON.parse(stored);
       setIsAuthenticated(true);
-      setUserEmail(storedEmail);
+      setUserEmail(parsed.email);
+      setUserData(parsed);
     }
   }, []);
 
-  const login = (email: string) => {
+  const login = (user: UserData) => {
     setIsAuthenticated(true);
-    setUserEmail(email);
-    localStorage.setItem("userEmail", email);
+    setUserEmail(user.email);
+    setUserData(user);
+    localStorage.setItem("userData", JSON.stringify(user));
   };
 
-const logout = () => {
-  setIsAuthenticated(false);
-  setUserEmail(null);
-  localStorage.removeItem("userEmail");
-  navigate("/cast-login");
-};
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUserEmail(null);
+    setUserData(null);
+    localStorage.removeItem("userData");
+    navigate("/cast-login");
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userEmail, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userEmail, userData, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
