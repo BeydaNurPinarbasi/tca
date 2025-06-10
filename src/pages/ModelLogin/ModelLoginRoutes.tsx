@@ -1,16 +1,20 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import Profile from "./profile";
-import EditProfile from "./EditProfile"; // yeni sayfa
+import EditProfile from "./EditProfile";
+import EditMeasurements from "./EditMeasurements"; 
 
 export default function ModelLoginRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Outlet />}>
-        {/* Ana rota: /profil */}
+        {/* Ana profil sayfası */}
         <Route index element={<Profile />} />
 
-        {/* Profili düzenle sayfası: /profil/edit */}
+        {/* Profili düzenleme */}
         <Route path="edit" element={<EditProfile />} />
+
+        {/* Ölçüleri düzenleme */}
+        <Route path="edit-measurements" element={<EditMeasurements />} />
       </Route>
     </Routes>
   );

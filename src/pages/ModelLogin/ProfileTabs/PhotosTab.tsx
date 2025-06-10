@@ -1,120 +1,218 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { useDropzone } from "react-dropzone";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
 
-export default function PhotosTab() {
-  const [photos, setPhotos] = useState<string[]>([]);
-  const [previewPhoto, setPreviewPhoto] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
+function SortableImage({
+  src,
+  index,
+  id,
+  onRemove,
+  onClick,
+}: {
+  src: string;
+  index: number;
+  id: string;
+  onRemove: () => void;
+  onClick: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
 
-  // LocalStorage'dan yükle
-  useEffect(() => {
-    const stored = localStorage.getItem("modelPhotos");
-    if (stored) {
-      setPhotos(JSON.parse(stored));
-    }
-  }, []);
-
-  // Fotoğraf yükleme
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      const updated = [...photos, base64];
-      setPhotos(updated);
-      localStorage.setItem("modelPhotos", JSON.stringify(updated));
-    };
-    reader.readAsDataURL(file);
-  };
-
-  // Fotoğraf silme
-  const handleDelete = (index: number) => {
-    const updated = photos.filter((_, i) => i !== index);
-    setPhotos(updated);
-    localStorage.setItem("modelPhotos", JSON.stringify(updated));
-  };
-
-  // Onaya gönder (şimdilik sadece uyarı)
-  const handleSubmitForApproval = () => {
-    alert("Fotoğraflar editör onayına gönderildi!");
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
   };
 
   return (
-    <div>
-      <h3 className="text-lg font-semibold mb-2">Model Fotoğrafları</h3>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
+      className="relative w-32 h-32 overflow-hidden rounded-lg border shadow-sm cursor-pointer"
+      onClick={onClick}
+    >
+      <img
+        src={src}
+        alt={`image-${index}`}
+        className="w-full h-full object-cover"
+      />
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove();
+        }}
+        className="absolute top-1 right-1 bg-white/80 text-red-600 rounded-full p-1 text-xs hover:bg-red-500 hover:text-white"
+      >
+        ✕
+      </button>
+    </div>
+  );
+}
 
-      {/* Açıklama */}
-      <p className="text-sm text-neutral-500 mb-4">
-        Gerçekleştirdiğiniz değişiklikler için{" "}
-        <span className="font-semibold text-black">“Onaya Gönder”</span>{" "}
-        butonuna basmanız gerekmektedir. Editörlerimiz tarafından incelendikten
-        sonra yayına alınacaktır.
-      </p>
+export default function PhotosTab() {
+  const [images, setImages] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [pendingApproval, setPendingApproval] = useState(false);
 
-      {/* Fotoğraf Yükle */}
-      <div className="mb-4">
-        <label className="inline-block bg-black text-white px-4 py-2 rounded cursor-pointer hover:bg-neutral-800 transition">
-          Fotoğraf Yükle
-          <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
-        </label>
+  const removeImage = (index: number) => {
+    setImages((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      localStorage.setItem("profilePhotos", JSON.stringify(updated));
+      return updated;
+    });
+    setToastMessage("Fotoğraf silindi");
+    setShowToast(true);
+    setPendingApproval(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
+
+  useEffect(() => {
+    const stored = localStorage.getItem("profilePhotos");
+    if (stored) setImages(JSON.parse(stored));
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/*": [] },
+    onDrop: (files) => {
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result as string;
+          setImages((prev) => {
+            const updated = [...prev, result];
+            localStorage.setItem("profilePhotos", JSON.stringify(updated));
+            return updated;
+          });
+          setPendingApproval(true);
+        };
+        reader.readAsDataURL(file);
+      });
+    },
+  });
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = images.findIndex((_, i) => i.toString() === active.id);
+    const newIndex = images.findIndex((_, i) => i.toString() === over.id);
+    setImages((items) => {
+      const reordered = arrayMove(items, oldIndex, newIndex);
+      localStorage.setItem("profilePhotos", JSON.stringify(reordered));
+      return reordered;
+    });
+    setPendingApproval(true);
+  };
+
+  const handleSubmitApproval = () => {
+    alert("Fotoğraflar onaya gönderildi.");
+    setPendingApproval(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold mb-2">Model Fotoğrafları</h3>
+        {pendingApproval && (
+          <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg space-y-4">
+            <p className="text-sm text-yellow-800">
+              Gerçekleştirdiğiniz değişiklikler için{" "}
+              <strong>“Onaya Gönder”</strong> butonuna basmanız gerekmektedir.
+              Yaptığınız değişiklikler tarafımıza onaya düşecektir. Editörlerimiz
+              tarafından incelendikten sonra onay verilip yayına alınacaktır.
+            </p>
+            <button
+              onClick={handleSubmitApproval}
+              className="bg-yellow-600 text-white px-4 py-2 rounded-md text-sm hover:bg-yellow-700 transition"
+            >
+              Onaya Gönder
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Galeri */}
-      {photos.length === 0 ? (
-        <p className="text-sm text-neutral-500">Henüz fotoğraf yüklenmedi.</p>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {photos.map((src, index) => (
-            <div key={index} className="relative group">
-              <img
-                src={src}
-                alt={`model-foto-${index}`}
-                className="rounded-lg object-cover aspect-square border border-neutral-200 cursor-pointer"
-                onClick={() => {
-                  setPreviewPhoto(src);
-                  setOpen(true);
-                }}
-              />
-              <button
-                onClick={() => handleDelete(index)}
-                className="absolute top-1 right-1 bg-white text-black text-xs px-2 py-1 rounded shadow hover:bg-red-500 hover:text-white transition"
-              >
-                Sil
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+      <div
+        {...getRootProps()}
+        className="border-2 border-dashed border-neutral-300 p-6 rounded-xl text-center cursor-pointer hover:border-black transition"
+      >
+        <input {...getInputProps()} />
+        <p className="text-sm text-neutral-600">
+          Fotoğrafları buraya sürükle veya tıkla yükle
+        </p>
+      </div>
 
-      {/* Onaya Gönder Butonu */}
-      <div className="text-right mt-6">
-        <button
-          onClick={handleSubmitForApproval}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToParentElement]}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={images.map((_, i) => i.toString())}
+          strategy={verticalListSortingStrategy}
         >
-          Onaya Gönder
-        </button>
-      </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+            {images.map((src, index) => (
+              <SortableImage
+                key={index}
+                id={index.toString()}
+                index={index}
+                src={src}
+                onRemove={() => removeImage(index)}
+                onClick={() => setSelectedImage(src)}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
-      {/* Modal: Önizleme */}
-      <Dialog open={open} onClose={() => setOpen(false)} className="fixed z-50 inset-0">
-        <div className="fixed inset-0 bg-black/60" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="max-w-xl w-full bg-white rounded-lg overflow-hidden">
-            <img src={previewPhoto || ""} alt="Büyük Önizleme" className="w-full object-contain" />
-            <div className="p-4 text-right">
-              <button
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 bg-black text-white rounded hover:bg-neutral-800 transition"
-              >
-                Kapat
-              </button>
-            </div>
+      {/* Modal */}
+      <Dialog
+        open={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        as={Fragment}
+      >
+        <div className="fixed inset-0 z-40 bg-black/70 flex items-center justify-center p-6">
+          <Dialog.Panel className="bg-white rounded-xl overflow-hidden max-w-3xl w-full max-h-[90vh]">
+            <img
+              src={selectedImage ?? ""}
+              alt="Büyütülmüş Görsel"
+              className="w-full object-contain max-h-[90vh]"
+            />
           </Dialog.Panel>
         </div>
       </Dialog>
+
+      {/* Toast */}
+      {showToast && (
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50">
+          {toastMessage}
+        </div>
+      )}
     </div>
   );
 }
