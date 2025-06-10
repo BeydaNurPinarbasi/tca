@@ -8,11 +8,17 @@ import EducationTab from "./ProfileTabs/EducationTab";
 import ContractsTab from "./ProfileTabs/ContractsTab";
 import { getUserMembershipDate } from "../../services/userService";
 import Tooltip from "../../components/ui/Tooltip";
+import FabGroup from "../../components/FabGroup/FabGroup";
 
 export default function Profile() {
   const { userEmail } = useAuth();
   const user = fakeUsers.find((u) => u.email === userEmail);
-  const tabs = ["Bilgiler", "Fotoğraflar", "Eğitim", "Sözleşmeler"];
+  const tabs = [
+    { label: "Bilgiler", value: "Bilgiler" },
+    { label: "Fotoğraflar", value: "Fotoğraflar" },
+    { label: "Model Training Studio", value: "Eğitim" },
+    { label: "Sözleşmeler", value: "Sözleşmeler" },
+  ];
   const [activeTab, setActiveTab] = useState("Bilgiler");
 
   const [profileData, setProfileData] = useState({
@@ -69,9 +75,8 @@ export default function Profile() {
   if (!user) return <p className="pt-24 text-center">Kullanıcı bulunamadı.</p>;
 
   return (
-    <div className="max-w-5xl mx-auto mt-20 mb-10 px-6 sm:px-12">
-      <div className="bg-white rounded-2xl shadow-xl p-8 space-y-8">
-        {/* Profil Başlığı */}
+  <div className="max-w-5xl mx-auto mt-20 mb-10 px-6 sm:px-12">
+    <div className="bg-white rounded-2xl shadow-xl p-8 space-y-8">        {/* Profil Başlığı */}
         <div className="grid sm:grid-cols-[auto_1fr] gap-6 items-center">
           <img
             src={profileData.profileImage}
@@ -119,15 +124,15 @@ export default function Profile() {
           <div className="flex gap-4 flex-wrap border-b border-neutral-200 pb-2">
             {tabs.map((tab) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
+                key={tab.value}
+                onClick={() => setActiveTab(tab.value)}
                 className={`text-sm font-medium px-3 pb-1 border-b-2 ${
-                  activeTab === tab
+                  activeTab === tab.value
                     ? "border-black text-black"
                     : "border-transparent text-neutral-500 hover:text-black hover:border-neutral-300"
                 }`}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
@@ -144,7 +149,9 @@ export default function Profile() {
             {activeTab === "Eğitim" && <EducationTab />}
             {activeTab === "Sözleşmeler" && <ContractsTab />}
           </div>
+         
         </div>
+        <FabGroup />
       </div>
     </div>
   );

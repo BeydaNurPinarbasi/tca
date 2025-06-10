@@ -59,7 +59,6 @@ export default function InfoTab({ about, bodyMetrics }: Props) {
               <div className="text-xs text-neutral-500 capitalize tracking-wide">
                 {key}
               </div>
-
               <div className="text-base font-medium text-neutral-800 mt-1">
                 {value || "-"}
               </div>
